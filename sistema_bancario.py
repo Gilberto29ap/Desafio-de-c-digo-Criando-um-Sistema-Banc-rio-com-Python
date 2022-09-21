@@ -28,7 +28,7 @@ def menu_inicial():
     """)
 
 def carregamento():
-    tempo_carregamento = 4
+    tempo_carregamento = 8
     for i in range(tempo_carregamento):
         if i <= tempo_carregamento:
             print(".")
@@ -45,54 +45,61 @@ while True:
     os.system('cls' if os.name == 'nt' else 'clear') #limpa tela
 
     if opcao == "s":
-        print("-----SAQUE-----")
+        print("--------SAQUE--------")
         valor_saque = int(input("digite o valor: "))
 
-        if saque_do_dia <= NUMERO_MAX_SAQUE:
-            if valor_saque <= LIMITE_POR_SAQUE:
-                if valor_saque <= saldo:
-                    print("Efetuando saque, por favor aguarde!")
-                    carregamento()
-                    print("Saque efetuado com sucesso!")
+        if valor_saque > 0: 
+        
+            if saque_do_dia <= NUMERO_MAX_SAQUE:
+                if valor_saque <= LIMITE_POR_SAQUE:
+                    if valor_saque <= saldo:
+                        print("Efetuando saque, por favor aguarde!")
+                        carregamento()
+                        print("Saque efetuado com sucesso!")
+                        input("Pressione enter para sair")
+                        menu_inicial()
+                        
+                        saldo -= valor_saque
+                        saque_do_dia += 1
+                        extrato += f"\n Saque       -R$ {valor_saque:.2f}"
+                    
+                    else:
+                        print(f"Saldo insuficiente, seu saldo atual é de: {saldo}")
+                        input("Pressione enter para sair")
+                        menu_inicial()
+
+                else: 
+                    print("O limite máximo para saques é R$ 500")
                     input("Pressione enter para sair")
                     menu_inicial()
                     
-                    saldo -= valor_saque
-                    saque_do_dia += 1
-                    extrato += "\n Saque     -"
-                    extrato += str(valor_saque)
-                else:
-                    print(f"Saldo insuficiente, seu saldo atual é de: {saldo}")
-                    input("Pressione enter para sair")
-                    menu_inicial()
-
-            else: 
-                print("O limite máximo para saques é R$ 500")
+            else:
+                print("Número de saques diários excedido. Tente Novamente amanhã")
                 input("Pressione enter para sair")
                 menu_inicial()
-                  
 
         else:
-            print("Número de saques diários excedido. Tente Novamente amanhã")
-            input("Pressione enter para sair")
-            menu_inicial()    
+            print("Valor inválido")
+            menu_inicial()
+    
 
     elif opcao == "e":
-        print("-----EXTRATO-----")
+        print("--------EXTRATO--------")
         print(extrato)
         input("Pressione enter para sair")
         menu_inicial()
 
 
     elif opcao == "d":
-        print("-----DEPÓSITO----")
+        print("--------DEPÓSITO-------")
         deposito_valor = int(input("Digite o valor a ser depositado: "))
+
         if deposito_valor > 0:
-            print(f"depósito de R$ {deposito_valor} efetuado com sucesso!")
-            extrato += "\n Depósito  +"
-            extrato += str(deposito_valor)
+            print(f"depósito de R$ {deposito_valor:.2f} efetuado com sucesso!")
+            extrato += f"\n Depósito    +R$ {deposito_valor:.2f}"
             input("Pressione enter para sair")
             menu_inicial()
+
         else:
             print("Valor inválido")
             input("Pressione enter para sair")
